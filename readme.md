@@ -28,4 +28,4 @@ O que precisa fazer:
 
 -FEATURE EXTRA 2: SAVE STATE? (Use pickle lib?https://stackoverflow.com/questions/18606097/python-text-game-how-to-make-a-save-feature)
 
--FEATURE EXTRA 3: ????
+-FEATURE EXTRA 3: DINHEIRO + LOJA?
