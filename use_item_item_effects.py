@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 12 16:00:48 2019
-
-@author: fuque
-"""
-
 ##### USAR ITEM #####
             
 def use_item(nome_do_item, dados_do_item, vida_jogador, bag, itens_equip):
@@ -22,11 +15,6 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, bag, itens_equip):
         itens_equip[0][0]=nome_do_item
         itens_equip[1][0]=dados_do_item["valor"]
         bag.remove(nome_do_item)
-        '''
-        while nome_do_item != bag[contador_inventario] and contador_inventario < len(bag):
-            contador_inventario+=1
-        del(bag[contador_inventario])
-        '''
         return [vida_jogador, bag, itens_equip]
     
     elif dados_do_item["efeito"] == "armadura": # Para equipar armadura
@@ -34,11 +22,6 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, bag, itens_equip):
         itens_equip[0][1]=nome_do_item
         itens_equip[1][1]=dados_do_item["valor"]
         bag.remove(nome_do_item)
-        '''
-        while nome_do_item != bag[contador_inventario] and contador_inventario < len(bag):
-            contador_inventario+=1
-        del(bag[contador_inventario])
-        '''
         return [vida_jogador, bag, itens_equip]
         
     elif dados_do_item["efeito"] == "chave": # Como usar chave???
@@ -125,16 +108,4 @@ def item_effects(itens_na_mochila, vida_jogador, itens_equip): # Recebe uma list
         print("Voce nao possui esse item ou digitou algo errado")
         time.sleep(1)
         escolha_item=input("Digite o nome do item que quer usar ou 'sair' para escolher outra açao: ")
-'''    
-    while escolha_item not in tem_na_mochila or escolha_item != "sair": # Enquanto não digitar sair ou um item na mochila
-        print("Voce nao possui esse item ou digitou algo errado")
-        time.sleep(1)
-        escolha_item= input("Digite o nome do item que quer usar ou 'sair' para escolher outra açao:")
-    
-    if escolha_item == "sair":
-        return [vida_jogador, itens_na_mochila, itens_equip]
-    else:
-        for i in tem_na_mochila:
-            if i == escolha_item:
-                return use_item(i, vida_jogador, itens_na_mochila, itens_equip) # Retorna vida, mochila, equipamento nessa ordem
-'''
+
