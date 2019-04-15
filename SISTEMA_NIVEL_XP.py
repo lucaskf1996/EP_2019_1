@@ -18,6 +18,8 @@ def nivel_e_xp(nivel_jogador, xp_jogador, cap_xp):
         xp_jogador+=1
     return [nivel_jogador, xp_jogador, cap_xp]
 
+
+''' Area de teste
 nivel_do_jogador=1
 cap_xp_jogador=1
 xp_do_jogador=0
