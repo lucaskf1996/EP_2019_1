@@ -5,6 +5,8 @@ Created on Tue Apr 16 07:38:10 2019
 @author: fuque
 """
 
+import time
+
 ##### IMPRIME TUDO DO CENARIO ATUAL #####
 
 def imprimir_cenario(cenario_atual):
@@ -158,7 +160,9 @@ def main():
 
             # Aluno B: substitua este comentário e a linha abaixo pelo código
             # para pedir a escolha do usuário.
-            escolha = ""
+            
+            escolha = input("Escolha uma ação:")        
+            
             
             while (escolha == "itens do local" or escolha == "procurar itens" or escolha == "usar item") and escolha in opcoes:   # Substituir por uma funcao?
                 if escolha == "itens do local":
@@ -176,8 +180,8 @@ def main():
                 opcoes = cenario_atual['opcoes']
                 # Aluno B: substitua este comentário e a linha abaixo pelo código
                 # para pedir a escolha do usuário.
-                escolha = ""
-                
+                escolha =  input("Escolha uma ação:") 
+               
             if escolha in opcoes:   # Tem que arrumar isso aqui?
                 nome_cenario_atual = escolha
             else:
@@ -187,3 +191,7 @@ def main():
     time.sleep(1)
     print("")
     print("Você morreu!")
+
+# Programa principal.
+if __name__ == "__main__":
+    main()
