@@ -67,8 +67,9 @@ def carregar_cenarios():
             
         "sala de teleporte": {
                 "titulo": "",
-                "descricao": "",
-                "opcoes": { 
+                "descricao": "Se teleportar para outro cenário pode ser útil...",
+                "opcoes": { "teleporte": "Escreva o nome correto do local, ou...",
+                "biblioteca": "Ir para a biblioteca"          
             }
         }
     }
