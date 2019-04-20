@@ -204,3 +204,4 @@ def item_effects(itens_na_mochila, vida_jogador, itens_equip): # Recebe uma list
         time.sleep(1)
         escolha_item=input("Digite o nome do item que quer usar ou 'sair' para escolher outra açao: ")
         print()
+    return vida_jogador, itens_na_mochila, itens_equip
