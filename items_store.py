@@ -17,6 +17,9 @@ def buy_item(itens_na_mochila,dinheiro):
                 print(loja)
                 print(dinheiro)
                 buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja')
+             else:
+                print ('Você não tem dinheiro pra comprar esse item... (é a crise)')
+                buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja')
         else:
             print ('Esse item não existe... (escreveu certo?)')
             buy = input('Qual item quer comprar? (escreva o nome certo...)')
