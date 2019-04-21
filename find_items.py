@@ -7,7 +7,7 @@ Created on Fri Apr 12 16:03:33 2019
 
 ##### FUNCAO DE ACHAR ITENS #####
         
-def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa, flag): #Essa funcao sera utilizada com um append?
+def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa, flag): #flag == 1 é search ativo, flag == 0 é search passivo
     ### Dicionario com os itens que ainda não foram descobertos. Keys sao locais, Values são listas com os itens que ainda podem ser descobertos ###
     if len(dicionario_itens_no_mapa[posicao_jogador])!= 0:
         rng=random.randint(0,10)
