@@ -7,16 +7,210 @@ Created on Tue Apr 16 07:38:10 2019
 
 import time
 import random
+from contextlib import contextmanager
+import threading
+import json
+import _thread
+
+def techlab (mochila):
+    mochila.append("foda-se")
+    print("\nvocê recebeu o item 'foda-se'\n")
+    return mochila
+
+########## SISTEMA DE COMBATE #########
+
+##### NIVEL E XP #####
+
+def nivel_e_xp(nivel_jogador, cap_hp, xp, cap_xp, ataque_base):
+    if xp+1==cap_xp:
+        nivel_jogador+=1
+        cap_xp*=2
+        xp=0
+        print("Voce passou para o nivel", nivel_jogador, "!\n")
+        cap_hp+=10
+    else:
+        xp+=1
+    return nivel_jogador, cap_hp, xp, cap_xp, ataque_base
+
+
+##### FUNCAO DE APARICAO #####
+
+def funcao_aparicao(vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_jogador, posicao, dinheiro, xp, cap_xp, game_over):
+    chance = random.randint(1,7)
+    
+    if chance > 2:
+        print ("Voce encontrou um monstro!\n")
+        time.sleep(2)
+        vida_jogador, cap_hp, nivel_jogador, xp, cap_xp, dinheiro, game_over = FUNCAO_COMBATE (vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_jogador, posicao, dinheiro, xp, cap_xp, game_over)
+    return vida_jogador, cap_hp, nivel_jogador, xp, cap_xp, dinheiro, game_over
+
+
+##### FUNCAO PADRAO DE COMBATE #####
+      
+def FUNCAO_COMBATE(vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_jogador, posicao, dinheiro, xp, cap_xp, game_over):
+    ataque_monstro = 5
+    ataque_monstro = int(ataque_monstro + nivel_jogador * 5)
+    vida_monstro = 15
+    vida_monstro = int(vida_monstro + nivel_jogador * 5)
+     
+    while vida_jogador > 0 and vida_monstro > 0:
+        ataque = ["rock", "paper", "scissors"]
+        escolha_monstro = ataque [random.randint (0,2)]
+        escolha_jogador = input ("Escolha: rock, paper ou scissors:")
+        
+        while escolha_jogador not in ataque:
+            print("\nEscolha invalida")
+            escolha_jogador = input("Escolha: rock, paper ou scissors:")
+     
+        if escolha_jogador == "scissors" and escolha_monstro == "paper":
+            vida_monstro -= ataque_jogador
+            print("você deu {0} de ataque".format (ataque_jogador))
+        
+            
+        elif escolha_jogador == "paper" and escolha_monstro == "rock":
+            vida_monstro-= ataque_jogador
+            print("você deu {0} de ataque".format (ataque_jogador))
+        
+        
+        elif escolha_jogador == "rock" and escolha_monstro == "scissors":
+            vida_monstro -= ataque_jogador
+            print("você deu {0} de ataque".format (ataque_jogador))
+        
+        
+        elif escolha_jogador == escolha_monstro:
+            print("Empate!! Digite um ataque novamente.")
+            
+        
+        else:
+            vida_jogador -= ataque_monstro
+            print("Você recebeu {0} de dano e agora está com {1}/{2} de vida".format(ataque_monstro, vida_jogador, cap_hp))
+        
+    if vida_jogador <= 0:
+        print ("Você perdeu")
+        game_over = True
+        
+    else:
+        time.sleep(1)
+        print("\nVocê derrotou seu amigo! Voce roubo... encontrou 5 reais!\n")
+        dinheiro += 5
+        nivel_jogador, cap_hp, xp, cap_xp, ataque_jogador = nivel_e_xp(nivel_jogador, cap_hp, xp, cap_xp, ataque_jogador)
+ 
+    
+    return vida_jogador, cap_hp, nivel_jogador, xp, cap_xp, dinheiro, game_over
+
+##### FUNCAO DE COMBATE RAUL #####
+
+def FUNCAO_COMBATE_RAUL (vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_jogador, dinheiro, xp, cap_xp, game_over, Raul): #itens_equipados[1][0]
+    
+    ataque_monstro = 80
+    vida_monstro = 600
+    
+    @contextmanager
+    def tempo_combate(seconds):
+        timer = threading.Timer(seconds, lambda: _thread.interrupt_main())
+        timer.start()
+        try:
+            yield
+        except KeyboardInterrupt:
+            return(dano) 
+        finally:
+            timer.cancel()
+    
+        # ends after 60 seconds - ***ainda a definir tempo de duração de batalha***
+    time_limit = 3
+    
+    while vida_monstro > 0 and vida_jogador > 0:
+        
+        print("Comece a digiter 'a'+'enter' em \n")    
+        time.sleep(1)
+        print("3")
+        time.sleep(1)
+        print("2")
+        time.sleep(1)
+        print("1")
+        time.sleep(1)
+        
+        with tempo_combate(time_limit):
+            dano=0
+            while True:
+                button_press = input("digite a + enter VÁRIAS VEZES!!!! ")
+                if "a" == button_press:
+                    dano += ataque_jogador+itens_equipados[1][0]+random.randint(-5, 5)
+                    print ()
+                    
+        time.sleep(3)
+
+        if button_press == "a":
+            dano+=ataque_jogador+itens_equipados[1][0]+random.randint(-5, 5)                
+        
+        print("acabou o tempo")
+        
+        print("Voce deu {0} de dano".format(dano))
+           
+        vida_monstro -= dano
+        if vida_monstro >0:
+            if vida_jogador - (ataque_monstro - itens_equipados[1][1]) < 0:
+                vida_jogador = 0
+            else:
+                vida_jogador -= (ataque_monstro+itens_equipados[1][1])
+            
+        print("Voce recebeu {0} de dano e agora tem {1}/{2} de vida".format(ataque_monstro, vida_jogador, cap_hp))
+            
+    if vida_jogador > 0:
+        dinheiro+=5
+        print("O cara desmaiou... Voce ganhou 5 de dinheiros e 1 de xp")
+        nivel_jogador, cap_hp, xp, cap_xp, ataque_jogador = nivel_e_xp(nivel_jogador, cap_hp, xp, cap_xp, ataque_jogador)
+        Raul = False
+        
+    game_over = True
+        
+    return vida_jogador, game_over, Raul
+
 
 ########## SISTEMA DE ITENS ##########
 
+
+##### LOJA #####
+
+def buy_item(itens_na_mochila,dinheiro):
+    loja = {
+  'cafe' : 5
+, 'pao de queijo': 15
+, 'lata de coca': 10
+}
+    for i in loja:
+        print("-", i," ", loja[i])
+    print ("\n Voce tem", dinheiro, "dinheiros")
+    buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja: ')
+    while buy != 'sair' or loja == {}:
+        if buy in loja:
+            if dinheiro >= loja[buy]:
+                itens_na_mochila.append(buy)
+                dinheiro -= loja[buy]
+                del(loja[buy])
+                for i in loja:
+                    print("-", i,":", loja[i], "reais")
+                print ("\nVoce adicionou", i, "ao seu inventario e agora tem", dinheiro, "dinheiros")
+                buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja: ')
+            else:
+                print ('Você não tem dinheiro pra comprar esse item... (é a crise)')
+                buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja: ')
+        else:
+            print ('Esse item não existe... (escreveu certo?)')
+            buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja: ')
+    return (itens_na_mochila,dinheiro)
+
+
 ##### USAR ITEM #####
             
-def use_item(nome_do_item, dados_do_item, vida_jogador, bag, itens_equip):
+def use_item(nome_do_item, dados_do_item, vida_jogador, cap_hp, bag, itens_equip):
     ### Usa o item de acordo com a sua categoria
     contador_inventario=0
     if dados_do_item["efeito"] == "recupera hp": # Recupera vida
-        vida_jogador+=dados_do_item["valor"]
+        if vida_jogador+dados_do_item["valor"] > cap_hp:
+            vida_jogador = cap_hp
+        else:
+            vida_jogador+=dados_do_item["valor"]
         time.sleep(1)
         print("Voce recuperou", dados_do_item["valor"])
         time.sleep(2)
@@ -68,132 +262,13 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, bag, itens_equip):
 
 ##### O QUE CADA ITEM FAZ #####
         
-def item_effects(itens_na_mochila, vida_jogador, itens_equip): # Recebe uma lista, a vida, a mochila e o equipamento
+def item_effects(itens_na_mochila, vida_jogador, cap_hp, itens_equip): # Recebe uma lista, a vida, a mochila e o equipamento
     tem_na_mochila={} # Mostra o que tem na mochila
     
     ### Dicionario com itens. Keys sao itens e value a categoria (efeito : recupera hp, armadura, arma, chave, leitura)
-    efeito_dos_itens={
-        "pao de queijo":{
-                "descricao": "O potinho é melhor que o normal. Cura 3 pontos de vida",
-                "efeito": "recupera hp", #alguma coisa
-                "valor":3
-        },
-        "prototipo quebrado":{
-                "descricao": "Nao serve pra mais nada. Parece bom pra bater nos amigos. Tem 1 de ataque. Pode ser equipado",
-                "efeito": "arma", #alguma coisa
-                "valor":1
-        },
-        "moletom do D.A":{
-                "descricao": "Ele é ok. Tem 3 de defesa. Pode ser equipado",
-                "efeito": "armadura",
-                "valor": 3
-        },
-        "seu casaco":{
-                "descricao": "Voce gosta dele e usou ele durante o Ensino Médio inteiro. Tem 1 de defesa. Pode ser equipado",
-                "efeito": "armadura", #alguma coisa
-                "valor":1
-        },
-        "faca de plastico":{
-                "descricao": "Parece que foi um projeto de alguem na impressora 3D. Vai brincar la vai. Tem 3 de ataque. Pode ser equipado",
-                "efeito": "arma",
-                "valor": 3
-        },
-        "carteirinha":{
-                "descricao": "Voce achou depois que passou pela catraca. OLHA ESSA FOTO HAHAHAHAHAHA",
-                "efeito": "chave",
-                "valor": None
-        },
-        "bilhete":{
-                "descricao": 'Você perguntou pra um amigo onde era a sala do professor. Ele te deu isso',
-                "efeito": "leitura",
-                "valor": '"206 predio 1"\n É verdade esse bilhete?'
-        },
-        "ferro de solda portátil":{
-                "descricao": "Nao sei se o problema vai ser o codigo de etica. Tem 6 de ataque. Pode ser equipado",
-                "efeito": "arma",
-                "valor": 6
-        },
-        "jaleco":{
-                "descricao": "Pra nao estragar sua roupa. Tem 4 de defesa. Pode ser equipado",
-                "efeito": "armadura",
-                "valor": 4
-        },
-        "acai do contem":{
-                "descricao": 'Nao. Isso nao tem gosto de terra. Cura 2 pontos de vida',
-                "efeito": "recupera hp",
-                "valor": 2
-        },
-        "lata de coca":{
-                "descricao": "Nesse predio é mais barato. Recupera 2 pontos de vida",
-                "efeito": "recupera hp",
-                "valor": 1
-        },
-        "pipoca da maquina":{
-                "descricao": "Alguem ja comeu isso? Recupera ???? ponto(s) de vida",
-                "efeito": "recupera hp",
-                "valor": random.randint(0,3)
-        },
-        "marmita":{
-                "descricao": 'Professor pode esperar uma chepa ne? Recupera 5 pontos de vida',
-                "efeito": "recupera hp",
-                "valor": 5
-        },
-        "Snickers":{
-                "descricao": 'Da aquela salvada entre as aulas. Cura 2 pontos de vida',
-                "efeito": "recupera hp",
-                "valor": 2
-        },
-        "livro de python":{
-                "descricao": "COMO ODEIO PYTOHN. DA VONTADE DE JOGAR ISSO EM ALGUEM....\ne se.... Pode ser equipado",
-                "efeito": "arma",
-                "valor": 4
-        },
-        "espada de papelao":{
-                "descricao": "Caramba. Quem ta espalhando essas coisas pela facul??? Tem 3 de ataque. Pode ser equipado",
-                "efeito": "arma",
-                "valor": 3
-        },
-        "pochete":{
-                "descricao": 'Nao protege nada e é a maior vergonha usar essa coisa. Tem 2 de defesa. Pode ser equipado',
-                "efeito": "armadura",
-                "valor": 2
-        },
-        "convite para festa":{
-                "descricao": '"Corote Xperience"\nA festa é hoje. Sera que o professor adia a EP pra depois de amanha?',
-                "efeito": "leitura",
-                "valor": None
-        },
-        "pistola":{
-                "descricao": 'É a de cola quente, mas imaginacao é tudo. Tem 5 de ataque. Pode ser equipado',
-                "efeito": "arma",
-                "valor": 5
-        },
-        "armadura medieval":{
-                "descricao": "Tava ficando sem ideia ja. Me quebra um galho ae. Tem 6 de ataque. Pode ser equipado",
-                "efeito": "armadura",
-                "valor": 6
-        },
-        "cafe":{
-                "descricao": "S2. Recupera 2 pontos de vida",
-                "efeito": "recupera hp",
-                "valor": 3
-        },
-        "baralho":{
-                "descricao": 'Pro truco durante o almoco. Só cuidado pra nao jogar no olho dos outros. Tem 1 de ataque. Pode ser equipado',
-                "efeito": "arma",
-                "valor": 1
-        },
-        "Torno CNC":{
-                "descricao": 'Como que voce... mas...... quer saber, foda-se. Tem 10 de ataque. Pode ser equipado',
-                "efeito": "arma",
-                "valor": 10
-        },
-        "furadeira portatil":{
-                "descricao": 'Ta sem pilha, relaxa. Tem 7 de ataque. Pode ser equipado',
-                "efeito": "arma",
-                "valor": 7
-        }
-    }
+    with open('texto_itens.txt','r') as arquivo:
+        conteudo = arquivo.read()
+        efeito_dos_itens = json.loads(conteudo)
             
     ### Cria uma biblioteca com os itens que tem na mochila com seus respectivos values
     for i in itens_na_mochila:
@@ -231,7 +306,7 @@ def show_possible_items(posicao_jogador, dicionario_itens_por_mapa):
     
 ##### FUNCAO DE ACHAR ITENS #####
         
-def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa, flag): #Essa funcao sera utilizada com um append?
+def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa): #Essa funcao sera utilizada com um append?
     ### Dicionario com os itens que ainda não foram descobertos. Keys sao locais, Values são listas com os itens que ainda podem ser descobertos ###
     if len(dicionario_itens_no_mapa[posicao_jogador])!= 0:
         rng=random.randint(0,10)
@@ -244,11 +319,10 @@ def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_m
             dicionario_itens_por_mapa[posicao_jogador][give_to_player] = True # Seta que o player ja encontrou o item
             return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
         else:
-            if flag == 1:
-                time.sleep(1)
-                print("Voce nao encontrou nenhum item") # Caso tenha falhado no "dado"
-                give_to_player = None  # Isso nao vai funcionar do jeito que eu quero. Como fazer: criar uma lista que recebe esses returns >> teste com if?
-                return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
+            time.sleep(1)
+            print("Voce nao encontrou nenhum item") # Caso tenha falhado no "dado"
+            give_to_player = None  # Isso nao vai funcionar do jeito que eu quero. Como fazer: criar uma lista que recebe esses returns >> teste com if?
+            return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
     else:
         time.sleep(1)
         print("Voce ja encontrou todos os itens deste lugar") # Caso ja tenha encontrado todos
@@ -265,7 +339,7 @@ def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_m
     
 def funcao_teleporte(destino,nivel,vida,dinheiro,cenarios):
     if nivel >= 3:
-        if destino == cenarios:
+        if destino in cenarios:
             return (destino,dinheiro,vida)
         vida = vida - 5
         dinheiro = dinheiro - 5
@@ -293,94 +367,87 @@ def imprimir_cenario(cenario_atual):
 ##### ATUALIZA A VARIAVEL CENARIO_ATUAL #####
 
 def carregar_cenarios():
-    cenarios = {
-        "inicio": {
-            "titulo": "Saguao do perigo",
-            "descricao": "Voce esta no saguao de entrada do Insper",
-            "opcoes": {
-                "andar professor": "Tomar o elevador para o andar do professor",
-                "biblioteca": "Ir para a biblioteca",
-                "itens do local": "Mostra uma lista com os itens que foram encontrados"
-            }
-        },
-            
-        "andar professor": {
-            "titulo": "Andar do desespero",
-            "descricao": "Voce chegou ao andar da sala do seu professor",
-            "opcoes": {
-                "inicio": "Tomar o elevador para o saguao de entrada",
-                "professor": "Falar com o professor",
-                "itens do local": "Mostra uma lista com os itens que foram encontrados"
-            }
-        },
-            
-        "professor": {
-            "titulo": "O monstro do Python",
-            "descricao": "Voce foi pedir para o professor adiar o EP. "
-                         "O professor revelou que é um monstro disfarçado "
-                         "e devorou sua alma.",
-            "opcoes": {
+    with open("cenarios_json.txt", 'r') as arquivo:
+        conteudo = arquivo.read()
+        cenarios = json.loads(conteudo)
                 
-            }
-        },
-        
-        "biblioteca": {
-            "titulo": "Caverna da tranquilidade",
-            "descricao": "Voce esta na biblioteca",
-            "opcoes": {
-                "inicio": "Voltar para o saguao de entrada",
-                "itens do local": "Mostra uma lista com os itens que foram encontrados"
-            }
-        },
-            
-        "sala de teleporte": {
-                "titulo": "",
-                "descricao": "Se teleportar para outro cenário pode ser útil...",
-                "opcoes": { "teleporte": "Escreva o nome correto do local, ou...",
-                "biblioteca": "Ir para a biblioteca"          
-            }
-        }
-    }
     nome_cenario_atual = "inicio"
     return cenarios, nome_cenario_atual
 
 
 def main():
+    
+    Raul = True
+    
 ##### DICIONARIOS PARA SISTEMA DE ITENS #####
 
     itens_no_mapa = {     # Dicionario para find_items()
-        "local": ["item", "item2", "item3"],
-        "local2": ["item", "item2", "item3"],
-        "Local3": ["item", "item2", "item3"]
+        "Saguao do perigo": ["moletom do D.A", "acai do contem", "Snickers","guarda chuva","calca do mickey"],
+        "Caverna da tranquilidade": ["Snickers", "livro de python", "pochete","capacete de bike","oculos"],
+        "Sala dos Anciãos": ["Snickers","pen drive do Raul"],
+        "Arsenal da engenharia": ["Snickers","prototipo quebrado", "jaleco", "pistola"],
+        "Prédio da engenharia": ["Snickers","lata de coca","marmita","energetico"],
+        "Arsenal insano":["Snickers","Tornno CNC", "furadeira portatil"],
+        "Habitat da engenharia": ["armadura medieval","elastico"],
+        "fabrica de relatório": ["ferro de solda portatil"],
+        "habitat do fuka":["Snickers", "espada de papelao", "faca de plastico"],
+        "Devolvam nosso aquárioo!!":["pipoca da maquina","salgadinho"]
+
+        
+        
+        
+        
     }
 
     itens_por_mapa = {     # Dicionario para show_possible_items()
-        "local": {
-            "item": True,
-            "item2": False,
-            "item3": False #...
+        "Saguao do perigo": {"moletom do D.A":False , "acai do contem":False , "guarda chuva":False ,"calca do mickey":False 
+           
         },
-        "local2": {
-            "item": False,
-            "item2": False,
-            "item3": False #...
+        "Caverna da tranquilidade": {"livro de python":False, "pochete":False,"capacete de bike":False,"oculos":False
+
         },
-        "Local3": {
-            "item": False,
-            "item2": False,
-            "item3": False #...
+        "Prédio da engenharia": {"Snickers":False,"lata de coca":False,"marmita":False,"energetico":False
+
+        },
+        "Arsenal da engenharia":{"prototipo quebrado":False, "jaleco":False, "pistola":False
+        
+        },
+        "Sala dos anciãos":{"pen drive do Raul":False
+         
+        },
+        "Arsenal insano":{"Tornno CNC":False, "furadeira portatil":False
+                   
+        },
+        "Habitat da engenharia": {"armadura medieval":False,"elastico":False
+        
+        },
+        "fabrica de relatório": {"ferro de solda portatil":False
+        },
+                                 
+        "habitat do fuka":{"Snickers":False, "espada de papelao":False, "faca de plastico":False
+        },                   
+                           
+        "Devolvam nosso aquárioo!!":{"pipoca da maquina":False,"salgadinho":False
         }
+        
+                                  
     }
+        
+        
+
         
 
 ##### VARIAVEIS DO JOGADOR #####
 
-    hp_jogador=20
+    hp_jogador=400
+    cap_hp=400
+    ataque_base_jogador = 10
     mochila=["bilhete", "marmita", "carteirinha"]
     itens_equipados=[["baralho", "seu casaco"], [1, 1]]
     nivel_do_jogador=1
     cap_xp_jogador=1
     xp_do_jogador=0
+    dinheiro = 0
 
 #### FIM VARIAVEIS DO JOGADOR
     
@@ -393,7 +460,7 @@ def main():
     time.sleep(2)
     print()
     print("'{0}!'".format(nome_jogador))
-    time.sleep(2)
+    time.sleep(1)
     print("Seu amigo se aproxima de voce e te entrega um baralho")
     time.sleep(1)
     print("'Voce esqueceu isso ontem'")
@@ -404,7 +471,8 @@ def main():
     print()
     print("É o dia de entregar o EP e você está muuuuito atrasado! Você está "
         "na entrada do Insper, e quer procurar o professor para pedir um "
-        "adiamento do EP (boa sorte...)")
+        "adiamento do EP. Voce percebe que algo está estranho, o prédio vazio"
+        "e tudo muito quieto. Ai voce pensa 'what the fuck is going on?'(boa sorte...)")
     time.sleep(4)
     
     print("")    
@@ -414,12 +482,12 @@ def main():
     game_over = False
     while not game_over:
         cenario_atual = cenarios[nome_cenario_atual]
+            
 
-        # Aluno A: substitua este comentário pelo código para imprimir 
-        # o cenário atual.
-        
         imprimir_cenario(cenario_atual) # Imprime o cenario atual com o as descricoes e opcoes.
         
+        if nome_cenario_atual == "tech lab":
+            mochila = techlab(mochila)
 
         opcoes = cenario_atual['opcoes']
         if len(opcoes) == 0:
@@ -431,40 +499,59 @@ def main():
             print()
             
             
-            while (escolha == "itens do local" or escolha == "procurar itens" or escolha == "usar item") and escolha in opcoes:   # Substituir por uma funcao?
+            while (escolha == "itens do local" or escolha == "procurar itens" or escolha == "usar item" or escolha == "loja") and escolha in opcoes:   # Substituir por uma funcao?
                 if escolha == "itens do local":
                     show_possible_items(cenario_atual["titulo"], itens_por_mapa)
                     
                 if escolha == "procurar itens":
-                    resultado_find_items=find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa, 1)  #[give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] 
+                    resultado_find_items=find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa)  #[give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] 
                     if resultado_find_items[0]!= None:
                         mochila.append(resultado_find_items[0])
                     itens_no_mapa = resultado_find_items[1]
                     itens_por_mapa = resultado_find_items[2]
                 
                 if escolha == "usar item":
-                    hp_jogador, mochila, itens_equipados = item_effects(mochila, hp_jogador, itens_equipados)
+                    hp_jogador, mochila, itens_equipados = item_effects(mochila, hp_jogador, cap_hp, itens_equipados)
+                    
+                if escolha == "batalhar":
+                    hp_jogador, game_over, Raul = FUNCAO_COMBATE_RAUL(hp_jogador, cap_hp, ataque_base_jogador, itens_equipados, nivel_do_jogador, dinheiro, xp_do_jogador, cap_xp_jogador, game_over, Raul )
                 
-                opcoes = cenario_atual['opcoes']
+                if escolha == "loja":
+                    mochila, dinheiro = buy_item(mochila,dinheiro)
                 
+                time.sleep(2)
+                print()
+                for i in cenario_atual["opcoes"]:
+                    print(i,":",cenario_atual["opcoes"][i])
                 escolha =  input("Escolha uma ação:")
                 print()
-               
-            if escolha in opcoes:   # Tem que arrumar isso aqui?
-                nome_cenario_atual = escolha
+            
+            if escolha == "teleporte" and escolha in opcoes:
+                if "pen drive do Raul" in mochila:
+                    destino = input("Digite o nome da sala. Se voce errar existem penalidades")
+                    nome_cenario_atual, hp_jogador, dinheiro = funcao_teleporte(destino, nivel_do_jogador, hp_jogador, dinheiro, cenarios)
+                else:
+                    print("Voce precisa do pen drive do Raul")
+                    escolha = "sala de teleporte"
+            elif  escolha == "batalhar" and escolha in opcoes:
+                hp_jogador, game_over, Raul = FUNCAO_COMBATE_RAUL (hp_jogador, cap_hp, ataque_base_jogador, itens_equipados, nivel_do_jogador, dinheiro, xp_do_jogador, cap_xp_jogador, game_over, Raul)
                 
-                resultado_find_items = find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa, 0)
-                if resultado_find_items[0]!= None:
-                    mochila.append(resultado_find_items[0])
-                itens_no_mapa = resultado_find_items[1]
-                itens_por_mapa = resultado_find_items[2]
+            elif escolha in opcoes:   # Tem que arrumar isso aqui?
+                nome_cenario_atual = escolha 
+                if escolha != ("professor" or "casa do pao de queijo" or "sala de teleporte"):
+                    hp_jogador, cap_hp, nivel_do_jogador, xp_do_jogador, cap_xp_jogador, dinheiro, game_over = funcao_aparicao(hp_jogador, cap_hp, ataque_base_jogador, itens_equipados, nivel_do_jogador, cenario_atual["titulo"], dinheiro, xp_do_jogador, cap_xp_jogador, game_over)
+                
             else:
                 time.sleep(1)
                 print("Sua indecisão foi sua ruína!")
                 game_over = True
-    time.sleep(1)
-    print("")
-    print("Você morreu!")
+                
+    if Raul == True:
+        time.sleep(1)
+        print("")
+        print("Você morreu!")
+    else:
+        print("Parabéns a EP não foi adiada, porque o professor está no chão!")
 
 # Programa principal.
 if __name__ == "__main__":
