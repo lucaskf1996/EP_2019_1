@@ -17,12 +17,12 @@ def FUNCAO_COMBATE(vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_
     vida_monstro += nivel_jogador * 0.1
      
     while vida_jogador > 0 and vida_monstro > 0:
-        ataque = ["rock", "paper", "sisors"]
-        ataque_monstro = ataque [random.rendint (0,2)]
-        ataque_jogador = input ("Escolha: rock, paper ou sisors:")
+        ataque = ["rock", "paper", "scissors"]
+        ataque_monstro = ataque [random.randint (0,2)]
+        ataque_jogador = input ("Escolha: rock, paper ou scissors:")
     
      
-        if ataque_jogador == "sisors" and ataque_monstro == "paper":
+        if ataque_jogador == "scissors" and ataque_monstro == "paper":
             vida_monstro -= ataque_jogador
             print("você deu {0} de ataque".format (ataque_jogador))
         
@@ -31,7 +31,7 @@ def FUNCAO_COMBATE(vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_
             vida_monstro-= ataque_monstro
             print("você deu {0} de ataque".format (ataque_jogador))
         
-        elif ataque_jogador == "rock" and ataque_monstro == "sisors":
+        elif ataque_jogador == "rock" and ataque_monstro == "scissors":
             vida_monstro -= ataque_jogador
             print("você deu {0} de ataque".format (ataque_jogador))
         
@@ -41,13 +41,12 @@ def FUNCAO_COMBATE(vida_jogador, cap_hp, ataque_jogador, itens_equipados, nivel_
             
         
         else:
-            print ("Derrotaaa")
             print("Você recebeu {0} de dano e agora está com {1}/{2} de vida".formar(ataque_monstro, vida_jogador, cap_hp))
             print (vida_jogador)
         
     if vida_jogador <= 0:
         print ("Você perdeu")
-        game_over = False
+        game_over = True
         
     else:
         print("Você derrotou seu amigo!")
