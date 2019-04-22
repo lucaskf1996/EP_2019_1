@@ -231,7 +231,7 @@ def show_possible_items(posicao_jogador, dicionario_itens_por_mapa):
     
 ##### FUNCAO DE ACHAR ITENS #####
         
-def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa): #Essa funcao sera utilizada com um append?
+def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_mapa, flag): #Essa funcao sera utilizada com um append?
     ### Dicionario com os itens que ainda não foram descobertos. Keys sao locais, Values são listas com os itens que ainda podem ser descobertos ###
     if len(dicionario_itens_no_mapa[posicao_jogador])!= 0:
         rng=random.randint(0,10)
@@ -244,10 +244,11 @@ def find_items(posicao_jogador, dicionario_itens_no_mapa, dicionario_itens_por_m
             dicionario_itens_por_mapa[posicao_jogador][give_to_player] = True # Seta que o player ja encontrou o item
             return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
         else:
-            time.sleep(1)
-            print("Voce nao encontrou nenhum item") # Caso tenha falhado no "dado"
-            give_to_player = None  # Isso nao vai funcionar do jeito que eu quero. Como fazer: criar uma lista que recebe esses returns >> teste com if?
-            return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
+            if flag == 1:
+                time.sleep(1)
+                print("Voce nao encontrou nenhum item") # Caso tenha falhado no "dado"
+                give_to_player = None  # Isso nao vai funcionar do jeito que eu quero. Como fazer: criar uma lista que recebe esses returns >> teste com if?
+                return [give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] # Retorna o que o jogador achou, a lista de itens no mapa e a lista de itens true/false
     else:
         time.sleep(1)
         print("Voce ja encontrou todos os itens deste lugar") # Caso ja tenha encontrado todos
@@ -435,7 +436,7 @@ def main():
                     show_possible_items(cenario_atual["titulo"], itens_por_mapa)
                     
                 if escolha == "procurar itens":
-                    resultado_find_items=find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa)  #[give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] 
+                    resultado_find_items=find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa, 1)  #[give_to_player, dicionario_itens_no_mapa, dicionario_itens_por_mapa] 
                     if resultado_find_items[0]!= None:
                         mochila.append(resultado_find_items[0])
                     itens_no_mapa = resultado_find_items[1]
@@ -451,6 +452,12 @@ def main():
                
             if escolha in opcoes:   # Tem que arrumar isso aqui?
                 nome_cenario_atual = escolha
+                
+                resultado_find_items = find_items(cenario_atual["titulo"], itens_no_mapa, itens_por_mapa, 0)
+                if resultado_find_items[0]!= None:
+                    mochila.append(resultado_find_items[0])
+                itens_no_mapa = resultado_find_items[1]
+                itens_por_mapa = resultado_find_items[2]
             else:
                 time.sleep(1)
                 print("Sua indecisão foi sua ruína!")

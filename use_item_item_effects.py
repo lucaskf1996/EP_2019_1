@@ -114,7 +114,7 @@ def item_effects(itens_na_mochila, vida_jogador, itens_equip): # Recebe uma list
         "lata de coca":{
                 "descricao": "Nesse predio é mais barato. Recupera 2 pontos de vida",
                 "efeito": "recupera hp",
-                "valor": 1
+                "valor": 2
         },
         "pipoca da maquina":{
                 "descricao": "Alguem ja comeu isso? Recupera ???? ponto(s) de vida",
