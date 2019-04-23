@@ -189,7 +189,7 @@ def buy_item(itens_na_mochila,dinheiro):
                 dinheiro -= loja[buy]
                 del(loja[buy])
                 for i in loja:
-                    print("-", i,":", loja[i], "reais")
+                    print("-", i,":", buy, "reais")
                 print ("\nVoce adicionou", i, "ao seu inventario e agora tem", dinheiro, "dinheiros")
                 buy = input('Qual item quer comprar? (escreva o nome certo...) Digite "sair" se quiser fechar a loja: ')
             else:
@@ -212,13 +212,13 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, cap_hp, bag, itens_equip
         else:
             vida_jogador+=dados_do_item["valor"]
         time.sleep(1)
-        print("Voce recuperou", dados_do_item["valor"])
+        print("Voce está com", vida_jogador,"de vida")
         time.sleep(2)
         print()
         while nome_do_item != bag[contador_inventario]:
             contador_inventario+=1
         bag.remove(nome_do_item)
-        return [vida_jogador, bag, itens_equip]
+        return [vida_jogador, cap_hp, bag, itens_equip]
     
     elif dados_do_item["efeito"] == "arma": # Para equipar arma
         bag.append(itens_equip[0][0])
@@ -229,7 +229,7 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, cap_hp, bag, itens_equip
         time.sleep(2)
         print()
         bag.remove(nome_do_item)
-        return [vida_jogador, bag, itens_equip]
+        return [vida_jogador, cap_hp, bag, itens_equip]
     
     elif dados_do_item["efeito"] == "armadura": # Para equipar armadura
         bag.append(itens_equip[0][1])
@@ -240,7 +240,7 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, cap_hp, bag, itens_equip
         time.sleep(2)
         print()
         bag.remove(nome_do_item)
-        return [vida_jogador, bag, itens_equip]
+        return [vida_jogador, cap_hp, bag, itens_equip]
         
     elif dados_do_item["efeito"] == "chave": # Como usar chave???
         time.sleep(1)
@@ -249,14 +249,14 @@ def use_item(nome_do_item, dados_do_item, vida_jogador, cap_hp, bag, itens_equip
         print("voce nao pode fazer o que esta pensando neste momento")
         time.sleep(2)
         print()
-        return [vida_jogador, bag, itens_equip]
+        return [vida_jogador, cap_hp, bag, itens_equip]
         
     elif dados_do_item["efeito"] == "leitura":  # Le o livro, bilhete, papel...
         time.sleep(1)
         print(dados_do_item["valor"])
         time.sleep(2)
         print()
-        return [vida_jogador, bag, itens_equip]
+        return [vida_jogador, cap_hp, bag, itens_equip]
     
         
 
@@ -281,16 +281,16 @@ def item_effects(itens_na_mochila, vida_jogador, cap_hp, itens_equip): # Recebe 
     
     while True:
         if escolha_item == "sair":
-            return [vida_jogador, itens_na_mochila, itens_equip]
+            return [vida_jogador, cap_hp, itens_na_mochila, itens_equip]
         elif escolha_item in tem_na_mochila:
             for i in tem_na_mochila:
                 if i == escolha_item:
-                    return use_item(i, tem_na_mochila[i], vida_jogador, itens_na_mochila, itens_equip) # Retorna vida, mochila, equipamento nessa ordem
+                    return use_item(i, tem_na_mochila[i], vida_jogador, cap_hp, itens_na_mochila, itens_equip) # Retorna vida, mochila, equipamento nessa ordem
         print("Voce nao possui esse item ou digitou algo errado")
         time.sleep(1)
         escolha_item=input("Digite o nome do item que quer usar ou 'sair' para escolher outra açao: ")
         print()
-    return vida_jogador, itens_na_mochila, itens_equip
+    return vida_jogador, cap_hp, itens_na_mochila, itens_equip
 
 
 ##### ITENS QUE PODEM SER ENCONTRADOS NO MAPA #####
@@ -382,15 +382,15 @@ def main():
 ##### DICIONARIOS PARA SISTEMA DE ITENS #####
 
     itens_no_mapa = {     # Dicionario para find_items()
-        "Saguao do perigo": ["moletom do D.A", "acai do contem", "Snickers","guarda chuva","calca do mickey"],
-        "Caverna da tranquilidade": ["Snickers", "livro de python", "pochete","capacete de bike","oculos"],
-        "Sala dos Anciãos": ["Snickers","pen drive do Raul"],
-        "Arsenal da engenharia": ["Snickers","prototipo quebrado", "jaleco", "pistola"],
+        "Saguao do perigo": ["moletom do D.A", "acai do contem","guarda chuva","calca do mickey"],
+        "Caverna da tranquilidade": ["livro de python", "pochete","capacete de bike","oculos"],
+        "Sala dos anciãos": ["pen drive do Raul"],
+        "Arsenal da engenharia": ["prototipo quebrado", "jaleco", "pistola"],
         "Prédio da engenharia": ["Snickers","lata de coca","marmita","energetico"],
         "Arsenal insano":["Snickers","Tornno CNC", "furadeira portatil"],
         "Habitat da engenharia": ["armadura medieval","elastico"],
         "fabrica de relatório": ["ferro de solda portatil"],
-        "habitat do fuka":["Snickers", "espada de papelao", "faca de plastico"],
+        "habitat do fuka":["espada de papelao", "faca de plastico"],
         "Devolvam nosso aquárioo!!":["pipoca da maquina","salgadinho"]
 
         
@@ -424,7 +424,7 @@ def main():
         "fabrica de relatório": {"ferro de solda portatil":False
         },
                                  
-        "habitat do fuka":{"Snickers":False, "espada de papelao":False, "faca de plastico":False
+        "habitat do fuka":{"espada de papelao":False, "faca de plastico":False
         },                   
                            
         "Devolvam nosso aquárioo!!":{"pipoca da maquina":False,"salgadinho":False
@@ -511,7 +511,7 @@ def main():
                     itens_por_mapa = resultado_find_items[2]
                 
                 if escolha == "usar item":
-                    hp_jogador, mochila, itens_equipados = item_effects(mochila, hp_jogador, cap_hp, itens_equipados)
+                    hp_jogador, cap_hp, mochila, itens_equipados = item_effects(mochila, hp_jogador, cap_hp, itens_equipados)
                     
                 if escolha == "batalhar":
                     hp_jogador, game_over, Raul = FUNCAO_COMBATE_RAUL(hp_jogador, cap_hp, ataque_base_jogador, itens_equipados, nivel_do_jogador, dinheiro, xp_do_jogador, cap_xp_jogador, game_over, Raul )
@@ -528,11 +528,11 @@ def main():
             
             if escolha == "teleporte" and escolha in opcoes:
                 if "pen drive do Raul" in mochila:
-                    destino = input("Digite o nome da sala. Se voce errar existem penalidades")
+                    destino = input("Digite o nome da sala. Se voce errar existem penalidades: ")
                     nome_cenario_atual, hp_jogador, dinheiro = funcao_teleporte(destino, nivel_do_jogador, hp_jogador, dinheiro, cenarios)
                 else:
                     print("Voce precisa do pen drive do Raul")
-                    escolha = "sala de teleporte"
+                    escolha = "andar professor"
             elif  escolha == "batalhar" and escolha in opcoes:
                 hp_jogador, game_over, Raul = FUNCAO_COMBATE_RAUL (hp_jogador, cap_hp, ataque_base_jogador, itens_equipados, nivel_do_jogador, dinheiro, xp_do_jogador, cap_xp_jogador, game_over, Raul)
                 
