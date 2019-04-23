@@ -18,7 +18,8 @@ cenarios = {
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
             "procurar itens": "Tenta achar um item no local",
             "casa do pao de queijo": "Um pao de queijo seria bem nice agora",
-            "4 andar":"voltar"
+            "4 andar":"voltar",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
         
@@ -27,10 +28,9 @@ cenarios = {
         "descricao": "Voce chegou ao andar da sala do seu professor",
         "opcoes": {
             "inicio": "Tomar o elevador para o saguao de entrada",
-            "itens do local": "Mostra uma lista com os itens que foram encontrados",
-            "procurar itens": "Tenta achar um item no local",
-            "sala do teleporte": "Se teleportar para outro cenário pode ser útil...",
-            "professor": "Falar com o professor"
+            "sala de teleporte": "Se teleportar para outro cenário pode ser útil...",
+            "professor": "Falar com o professor",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
         
@@ -40,7 +40,8 @@ cenarios = {
                      "O professor revelou que é um monstro "
                      "e voce ve que é hora de batalhar.",
         "opcoes": {
-            "batalhar": "É só isso. Não tem mais jeito. Acabou. Boa sorte..."
+            "batalhar": "É só isso. Não tem mais jeito. Acabou. Boa sorte...",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     
@@ -51,7 +52,8 @@ cenarios = {
             "inicio": "Voltar para o saguao de entrada",
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
             "procurar itens": "Tenta achar um item no local",
-            "sala das entidades": "Ir para a sala das entidades"
+            "sala de entidades": "Ir para a sala das entidades",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
         
@@ -61,7 +63,7 @@ cenarios = {
         "opcoes": {
             "teleporte": "Escreva o nome correto do local, ou...",
             "andar professor": "Tomar o elevador para o andar do professor",
-            "itens do local": "Mostra uma lista com os itens que foram encontrados"
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
         
@@ -70,7 +72,8 @@ cenarios = {
         "descricao":"SIM",
         "opcoes":{
             "inicio": "Voltar para o saguao de entrada",
-            "loja": "Comprar comidinha"
+            "loja": "Comprar comidinha",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     
@@ -80,7 +83,8 @@ cenarios = {
         "opcoes":{
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
             "procurar itens": "Tenta achar um item no local",
-            "biblioteca": "Ir para a biblioteca"
+            "biblioteca": "Ir para a biblioteca",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     
@@ -90,7 +94,8 @@ cenarios = {
         "opcoes":{
             "prédio 2": "Ir para o saguão do prédio 2",
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
-            "procurar itens": "Tenta achar um item no local"
+            "procurar itens": "Tenta achar um item no local",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     "predio 2":{
@@ -100,7 +105,8 @@ cenarios = {
             "fab lab": "Ir para o fab lab",
             "inicio": "Ir para o prédio 1",
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
-            "procurar itens": "Tenta achar um item no local"
+            "procurar itens": "Tenta achar um item no local",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     "tech lab":{
@@ -109,7 +115,8 @@ cenarios = {
         "opcoes":{
             "inicio": "Voltar para o saguao de entrada",
             "itens do local": "Mostra uma lista com os itens que foram encontrados",
-            "procurar itens": "Tenta achar um item no local"
+            "procurar itens": "Tenta achar um item no local",
+            "usar item": "Usar um item da sua mochila para usar ou equipar"
         }
     },
     "4 andar":{
@@ -120,7 +127,8 @@ cenarios = {
                 "itens do local": "Mostra uma lista com os itens que foram encontrados",
                 "procurar itens": "Tenta achar um item no local",
                 "habitat do fukada": "vai la mongar",
-                "lab instrumed": "indo encontrar o Carlitos"
+                "lab instrumed": "indo encontrar o Carlitos",
+                "usar item": "Usar um item da sua mochila para usar ou equipar"
             }
      },
         
@@ -130,8 +138,8 @@ cenarios = {
         "opcoes": {
                 "4 andar":"voltar",
                 "itens do local": "Mostra uma lista com os itens que foram encontrados",
-                "procurar itens": "Tenta achar um item no local"
-                
+                "procurar itens": "Tenta achar um item no local",
+                "usar item": "Usar um item da sua mochila para usar ou equipar"
                 }
     },
     "habitat do Fuka":{
@@ -140,8 +148,8 @@ cenarios = {
             "opcoes":{
                     "4 andar":"voltar",
                     "itens do local": "Mostra uma lista com os itens que foram encontrados",
-                    "procurar itens": "Tenta achar um item no local"
-                    
+                    "procurar itens": "Tenta achar um item no local",
+                    "usar item": "Usar um item da sua mochila para usar ou equipar"
                 }
     },
     "aquario":{
@@ -150,7 +158,8 @@ cenarios = {
             "opcoes":{
                     "predio 2": "sair do aquário (tem certeza? Eles podem roubar)",
                     "itens do local": "Mostra uma lista com os itens que foram encontrados",
-                    "procurar itens": "Tenta achar um item no local"                                               
+                    "procurar itens": "Tenta achar um item no local",
+                    "usar item": "Usar um item da sua mochila para usar ou equipar"                                              
                 }
     }
 }
